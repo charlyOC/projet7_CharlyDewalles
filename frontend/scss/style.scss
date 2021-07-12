@@ -1,0 +1,163 @@
+$green: #223e25;
+$pastel-blue:#4e7e74;
+$pastel-grey: #4e5f53;
+$pastel-pink: #ddac9d;
+
+
+* 
+{
+    font-family: 'DM Sans', sans-serif;
+}
+
+body 
+{
+    background-color: $pastel-blue;
+
+    header
+    {
+        height: 230px;
+        display: flex;
+        justify-content: center;
+
+        img 
+        {
+            width: 250px;
+        }
+    }
+
+    
+    #container
+    {
+        display: flex;
+        justify-content: center;
+        margin-top: 10vh;
+
+    }
+
+
+
+    #signup
+    {
+        border-radius: 10px;
+        padding: 20px;
+        background-color: whitesmoke;
+        width: 30em;
+        display: flex;
+        flex-direction: column;
+
+        h1 
+        {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 800;
+            padding: -5px;
+        }
+
+        h2 
+        {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        input 
+        {
+            border: none;
+            margin-bottom: 15px;
+            padding: 6px;
+            border-radius: 5px;
+        }
+
+        #name_firstname
+        {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #firstname
+        {
+            width: 43%;
+        }
+
+        #name
+        {
+            width: 43%;
+        }
+
+        #submit 
+        {
+            background-color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transition-duration: 0.2s;
+
+            &:hover 
+            {
+                box-shadow: #223e25c6 2px 4px 12px 1px;
+                transition-duration: 0.2s;
+            }
+        }
+    }
+
+    #login
+    {
+        border-radius: 10px;
+        padding: 20px;
+        background-color: whitesmoke;
+        width: 30em;
+        display: flex;
+        flex-direction: column;
+
+        h1 
+        {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 800;
+            padding: -5px;
+        }
+
+        h2 
+        {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        input 
+        {
+            border: none;
+            margin-bottom: 15px;
+            padding: 6px;
+            border-radius: 5px;
+        }
+
+
+        #name
+        {
+            width: 43%;
+        }
+
+        #submit 
+        {
+            background-color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transition-duration: 0.2s;
+
+            &:hover 
+            {
+                box-shadow: #223e25c6 2px 4px 12px 1px;
+                transition-duration: 0.2s;
+            }
+        }
+    }
+}
+
+
+
+
