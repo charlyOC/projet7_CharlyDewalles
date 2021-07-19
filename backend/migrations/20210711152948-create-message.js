@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idUSERS: {
+      UserId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -41,4 +41,6 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Messages');
   }
+
+  
 };

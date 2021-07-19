@@ -3,9 +3,7 @@ const router = express.Router();
 const db = require('../models');
 const bcrypt= require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-
-
+const fs = require('fs');
 const multer = require('../middleware/multer-config');
 
 
@@ -17,17 +15,18 @@ exports.signup = (req, res) => {
             password: hash,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            bio: req.body.bio
+            bio: req.body.bio,
+            isAdmin: 0
+        })
     
-        }).then(() => res.status(201).json({ message: 'Utilisateur ajouté' }))
-        .catch(error => res.status(400).json({ error }));
-
-    }).catch(error => res.status(500).json({ error }));
+    }).then(() => res.status(201).json({ message: 'Utilisateur ajouté' }))
+    .catch(error => res.status(400).json({ message: 'echec' }));
 
 };
 
 exports.login = (req, res) => {
-    db.User.findOne({ email: req.body.email })
+    db.User.findOne
+    ({ where: {email: req.body.email} })
     .then(user => {
        if (!user) {
            return res.status(401).json({ error: 'Utilisateur non trouvé'});
@@ -52,10 +51,31 @@ exports.login = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    db.User.findAll().then( users => res.send(users))
+    db.User.findAll({ include: [db.Message] }).then( users => res.send(users))
 };
 
+exports.delete = (req, res) => {
+    db.User.destroy({ where: { id: req.params.id}  })
+    .then(() => res.status(201).json({ message: 'Utilisateur supprimé' }))
+    .catch(error => res.status(500).json({ message: 'échec de la suppression' }));
+}
+
 exports.getUser = (req, res) => {
-    db.User.findOne().then( users => res.send(users))
+    db.User.findOne({where:{ id: req.params.id }}).then( users => res.send(users))
 };
+
+exports.editUser = (req, res) => {
+    db.User.update({ 
+
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        bio: req.body.bio,
+        avatar: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+
+        where: {id: req.params.id},
+    }).then(modifiedMessage => res.status(200).json({ modifiedMessage }))
+    .catch(error => res.status(500).json({ error }));
+}
+
+
 

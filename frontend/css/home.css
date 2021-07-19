@@ -1,0 +1,74 @@
+/* line 7, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+* {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* line 12, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body {
+  background-color: #4e7e74;
+  display: flex;
+  justify-content: center;
+}
+
+/* line 18, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container {
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* line 26, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container header {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* line 33, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container header #logo {
+  width: 25%;
+}
+
+/* line 38, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container header #avatar {
+  width: 60px;
+  border-radius: 50%;
+  margin-left: 50px;
+}
+
+/* line 46, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container header button {
+  margin-left: 200px;
+  background-color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+
+/* line 57, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container header button:hover {
+  box-shadow: #223e25c6 2px 4px 12px 1px;
+  transition-duration: 0.2s;
+}
+
+/* line 65, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/home.scss */
+body #container .messages_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: #223e25 1px solid;
+  border-radius: 7px;
+  background-color: whitesmoke;
+  padding: 20px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=home.css.map */

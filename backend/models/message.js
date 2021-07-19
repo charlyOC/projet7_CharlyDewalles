@@ -19,13 +19,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Message.init({
-    UserId: DataTypes.INTEGER,
+
     content: DataTypes.STRING,
     attachment: DataTypes.STRING,
-    likes: DataTypes.INTEGER
+    likes: DataTypes.INTEGER,
+    UserId: DataTypes.INTEGER
+    
   }, {
     sequelize,
     modelName: 'Message',
   });
+
   return Message;
 };
