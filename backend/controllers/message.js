@@ -9,38 +9,50 @@ const User = models.user
 
 exports.createMessage = (req, res) => {
     db.Message.create({
-        UserId: req.params.id,
+        UserId: req.user.id,
         content: req.body.content,
         attachment: req.body.attachement,
         likes: 0,
-
-    }).then(() => res.status(201).json({ message: 'message créé' }))
-    .catch(error => res.status(400).json({ error }));
+      }).then(() => res.status(200).json({ message: 'message créé' }))
+    .catch(error => res.status(400).json({ message: 'error'}));
 };
 
 exports.getMessages = (req, res) => {
-    db.Message.findAll({ 
-        
-        where: sequelize.where(sequelize.fn('DATE', sequelize.col('createdAt')), {
-            [sequelize.Op.between]: [
-                sequelize.fn('SUBDATE', sequelize.fn('NOW'), 10),
-                sequelize.fn('NOW')
-            ]
-            
-        }),
-        order: [
-            ['createdAt', 'DESC']
-        ]
-
-    }).then(messages => res.status(200).json({ messages }))
-        
-    .catch(error => res.status(500).json({ error }));
-};
+    const limit = 4
+    const page = parseInt(req.query.page) || 1
+  
+    const options = {
+      include: [
+        {
+          model: db.User
+        }
+      ],
+      limit,
+      offset: limit * (page - 1),
+      order: [['createdAt', 'DESC']]
+    }
+  
+    if (req.query.userId) {
+      options.where = {
+        userId: parseInt(req.query.userId)
+      }
+    }
+  
+    db.Message.findAll(options)
+      .then(messages => res.status(200).json({ messages }))
+      .catch(error => res.status(400).json({ error }))
+  };
 
 exports.getMessageById = (req, res) => {
-    db.Message.findOne({ where: { id: req.params.id } })
-        .then(message => res.status(200).json({ message }))
-        .catch(error => res.status(500).json({ error }));
+    db.Message.findOne({ where: { id: req.params.id },
+
+        include: [
+          {
+            model: db.User
+          }
+        ]
+    }).then(post => res.status(200).json({ post }))
+        .catch(error => res.status(404).json({ error }))
 };
 
 exports.editMessage = (req, res) => {
@@ -61,27 +73,3 @@ exports.deleteMessage = (req, res) => {
     }).then(deletedMessage => res.status(200).json({ deletedMessage }))
     .catch(error => res.status(500).json({ error }));
 };
-
-exports.likeMessage = (req, res) => {
-    const likes = req.body.likes;
-
-    const userId = req.body.userId;
-
-    const messageId = req.params.id;
-
-    if (likes === 1) { 
-
-        db.Message.update(
-            {
-                likes: + 1,
-                where: {id: messageId}
-            }
-        )
-        .then(() => res.status(200).json({
-            message: "Vous aimez cette sauce !"
-        }))
-          .catch((error) => res.status(400).json({
-            error
-        }))
-    }
-}

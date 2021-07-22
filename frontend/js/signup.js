@@ -1,7 +1,7 @@
 
-const submit = document.getElementById('submit');
+const submitPost = document.getElementById('submit');
 
-submit.addEventListener('click', () => {
+submitPost.addEventListener('click', () => {
 
     let user = {
         email: document.getElementById('email').value,

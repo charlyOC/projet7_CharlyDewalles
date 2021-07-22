@@ -1,6 +1,7 @@
 
 const submit = document.getElementById('submit');
 
+
 submit.addEventListener('click', () => {
 
     let user = {
@@ -19,9 +20,16 @@ submit.addEventListener('click', () => {
         }).then((response) => response.json()) 
         .then((response) => {
             console.log(response)
-            window.location.href="home.html";
-        }).catch(error => alert("Erreur : " + error));
+            console.log(response.userId)
+            sessionStorage.setItem('token', response.token);
+            sessionStorage.setItem('userId', response.userId);
+            sessionStorage.setItem('firstName', response.firstName);
+            sessionStorage.setItem('lastName', response.lastName);
+            window.location.href="home.html?id=" + response.userId;
+    }).catch(error => alert("Erreur : " + error));
 
 });
+
+
 
 

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/079f44f127.js" crossorigin="anonymous"></script> 
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <title>Groupomania</title>
 </head>
@@ -17,19 +18,31 @@
     <div id="container">
         <header>
             <img id="logo" src="images/icon-left-font-monochrome-white.svg">
-            <img id="avatar" src="images/avatar.svg">
-            <div id="names"></div>
+            <img id="avatar_user" src="images/avatar.svg">
+            <h2 id="names"></h2>
             <div id="weather"></div>
             <button>Déconnexion</button>
         </header>
 
-        <section id="messages">
-
-            <div id="create_message">
-
+        <section id="create_message">
+            <div id="toggle_post">
+                <h2>publier un message</h2> 
+                <button><i class="fas fa-chevron-right"></i></button>
             </div>
 
-            
+            <div id="inputs" class="menu_up">
+                <input id="message" type="textarea" required maxlength="140" placeholder="140 caractères maximum" />
+                <div id="upload_file">
+                    <button id="get_image" onclick="document.getElementById('image').click(); return false;"><i class="fas fa-image"></i></button>
+                    <input id="image" type="file" style="visibility: hidden;" />
+                </div>
+                <button id="post">poster</button>
+            </div>
+
+        </section>
+
+        <section id="messages">
+
 
         </section>
 

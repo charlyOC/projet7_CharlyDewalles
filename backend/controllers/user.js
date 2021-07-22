@@ -37,9 +37,11 @@ exports.login = (req, res) => {
                 return res.status(401).json({ error: 'mot de passe incorrect'});
             }
             res.status(200).json({
-                userId: user._id,
+                userId: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 token: jwt.sign(
-                    {userId: user._id},
+                    {userId: user.id},
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
                 ),
@@ -75,7 +77,8 @@ exports.editUser = (req, res) => {
         where: {id: req.params.id},
     }).then(modifiedMessage => res.status(200).json({ modifiedMessage }))
     .catch(error => res.status(500).json({ error }));
-}
+};
+
 
 
 

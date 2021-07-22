@@ -1,33 +1,26 @@
-const express = require('express');
-const app = express();
-const db = require('./models');
-const bodyParser = require('body-parser');
-const path = require('path');
+const http = require("http");
+const app = require("./app");
 
-const userRoutes = require('./routes/user');
-const messageRoutes = require('./routes/message');
+const normalizePort = val => {
+    const port = parseInt(val, 10)
 
-const PORT = process.env.PORT || 3000;
+    if (isNaN(port)) {
+        return val
+    }
+    if (port >= 0) {
+        return port
+    }
+    return false
+}
+const port = normalizePort(process.env.PORT || "3000");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.set("port", port);
 
+const server = http.createServer(app);
 
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
-
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
-app.use('/api/auth', userRoutes);
-app.use('/api/message', messageRoutes);
 
 db.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`listening on : http://localhost:${PORT}`)
-  })
+    app.listen(PORT, () => {
+      console.log(`listening on : http://localhost:${PORT}`)
+    })
 })
