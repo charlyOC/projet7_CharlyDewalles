@@ -21,8 +21,12 @@ submitPost.addEventListener('click', () => {
         }).then((response) => response.json()) 
         .then((response) => {
             console.log(response)
-            window.location.href="home.html";
-        }).catch(error => alert("Erreur : " + error));
+            sessionStorage.setItem('token', response.token);
+            sessionStorage.setItem('userId', response.userId);
+            sessionStorage.setItem('firstName', response.firstName);
+            sessionStorage.setItem('lastName', response.lastName);
+            window.location.href="home.html?id=" + response.userId;
+        }).catch(error => alert("les valeurs rentrées ne sont pas bonnes"));
 
 });
 

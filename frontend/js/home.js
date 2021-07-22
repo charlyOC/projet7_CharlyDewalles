@@ -1,7 +1,28 @@
+
 const url = window.location.search;
 let params = new URLSearchParams (url);
 let idUser = params.get('id');
 const token = sessionStorage.getItem('token');
+
+const names = document.getElementById('names');
+
+const firstNameUser = document.createElement('h2');
+firstNameUser.textContent = sessionStorage.getItem('firstName');
+names.appendChild(firstNameUser);
+
+const lastNameUser = document.createElement('h3');
+lastNameUser.textContent = sessionStorage.getItem('lastName');
+names.appendChild(lastNameUser);
+
+
+function handleLogout(){
+    window.sessionStorage.clear();
+    window.location.href='login.html'
+};
+
+document.getElementById('logout').addEventListener('click', () => {
+    handleLogout();
+});
 
 
 
@@ -52,15 +73,25 @@ fetch('http://localhost:3000/api/message/getmessage', {
 }).then((response) => response.json())
 .then((response) => {
 
-    let firstName = sessionStorage.getItem('firstName');
+    console.log(response)
 
     for(let i = 0; i < response.messages.length; i++) {
         
+
+        
+        const firstName = response.messages[i].User.firstName;
+        const lastName = response.messages[i].User.lastName;
+
+        let idMessage = response.messages[i].id;
+        let idUserMessage = response.messages[i].User.id
+
+        console.log(idUserMessage);
+        
+
+        //console.log(idUser);
+
         let messageDiv = document.createElement('div');
         messageDiv.setAttribute('class', 'messages_card');
-        if(firstName === null){
-            messageDiv.style.display = 'none'
-        };
         messagesSection.appendChild(messageDiv);
 
         let userDiv = document.createElement('div');
@@ -70,7 +101,7 @@ fetch('http://localhost:3000/api/message/getmessage', {
 
         let userName = document.createElement('h2');
         userName.setAttribute('class', 'user_id');
-        userName.textContent = firstName;
+        userName.textContent = firstName + ' ' + lastName ;
         userDiv.appendChild(userName);
 
         let avatar = document.createElement('img');
@@ -78,15 +109,49 @@ fetch('http://localhost:3000/api/message/getmessage', {
         avatar.setAttribute('class', 'avatar');
         userDiv.appendChild(avatar);
 
-        let edit = document.createElement('button');
+        const edit = document.createElement('button');
         edit.setAttribute('class', 'edit_message');
         edit.textContent = 'Modifier';
         userDiv.appendChild(edit);
 
-        let report = document.createElement('button');
+        const report = document.createElement('button');
         report.setAttribute('class', 'report');
         report.textContent = 'Signaler';
         userDiv.appendChild(report);
+
+        const erase = document.createElement('button');
+        erase.setAttribute('class', 'erase');
+        erase.textContent = 'Supprimer';
+        userDiv.appendChild(erase);
+
+        erase.addEventListener('click', () => {
+
+            window.location.href="home.html?id=" + idUser + "?idmessage=" + idMessage + "?idusermessage=" + idUserMessage;
+
+            if(idUser == idUserMessage){
+                fetch('http://localhost:3000/api/message/deletemessage/' + idMessage, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8' 
+                    },
+                }).then((response) => response.json())
+                .then((response) => {
+                    
+                    console.log(response)       
+                }).catch(error => alert("Erreur : " + error));
+    
+                window.location.href="home.html?id=" + idUser; 
+                location.reload();
+            } else {
+                alert('vous ne pouvez pas supprimer ce message');
+                window.location.href="home.html?id=" + idUser; 
+                location.reload();
+            }
+
+        
+
+
+        });
 
         let content = document.createElement('h3');
         content.setAttribute('class', 'content');
@@ -99,6 +164,13 @@ fetch('http://localhost:3000/api/message/getmessage', {
         messageDiv.appendChild(image);
     }
 });
+
+function imageFile(){
+    var filename = document.getElementById('image').value;
+    document.getElementById('get_image').value = filename;
+    document.getElementById("image").files[0].path
+    alert(filename);
+}
 
 
 const post = document.getElementById('post');
@@ -114,33 +186,19 @@ post.addEventListener('click', () => {
     fetch("http://localhost:3000/api/message/postmessage/" + idUser, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'multipart/form-data',
             'Authorization': 'Bearer' + ' ' + token,
         },
         mode:'cors',
         body: JSON.stringify(message),
-        }).then((response) => response.json()) 
+    }).then((response) => response.json()) 
         .then((response) => {
             console.log(response)
+            location.reload();
         }).catch(error => alert("Erreur : " + error));
 
 });
 
-//fetch('http://localhost:3000/api/auth/me/' + idUser)
-//.then((response) => response.json())
-//.then((response) => {
 
-//    console.log(response)
 
-//    const divNames = document.getElementById('names');
-
-//    divNames.textContent = response.User.firstName + response.User.lastName;
-
-//    let avatarUser = document.getElementById('avatar_user');
-//    avatarUser.setAttribute('src', response.User.avatar);
-
-//   if(avatarUser === null){
-//        avatarUser.setAttribute('src', 'images/avatar.svg')
-//    }
-//})
 

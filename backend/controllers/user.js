@@ -7,22 +7,31 @@ const fs = require('fs');
 const multer = require('../middleware/multer-config');
 
 
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
         db.User.create({
-            email: req.body.email,
-            password: hash,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            bio: req.body.bio,
-            isAdmin: 0
+            email : req.body.email,
+            password : hash,
+            firstName : req.body.firstName,
+            lastName : req.body.lastName
+        }).then(userCreated => {
+            res.status(201).json({ 
+                userId: userCreated.id,
+                firstName: userCreated.firstName,
+                lastName: userCreated.lastName,
+                token: jwt.sign(
+                    {userId: userCreated.id},
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' }
+                ),
+            });
         })
-    
-    }).then(() => res.status(201).json({ message: 'Utilisateur ajouté' }))
-    .catch(error => res.status(400).json({ message: 'echec' }));
-
+        .catch(error => res.status(400).json({ message: 'erreur de token' }));
+    })
+    .catch(error => res.status(500).json({ message: 'erreur de création' }));
 };
+
 
 exports.login = (req, res) => {
     db.User.findOne
@@ -57,7 +66,10 @@ exports.getAll = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    db.User.destroy({ where: { id: req.params.id}  })
+    db.User.destroy({ 
+        where: { id: req.params.id},
+        include: [db.Message]
+    })
     .then(() => res.status(201).json({ message: 'Utilisateur supprimé' }))
     .catch(error => res.status(500).json({ message: 'échec de la suppression' }));
 }

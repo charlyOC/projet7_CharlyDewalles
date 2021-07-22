@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Message.belongsTo(models.User, {
         foreignKey: {
+          onDelete: 'CASCADE',
           allowNull: false
         }
       })

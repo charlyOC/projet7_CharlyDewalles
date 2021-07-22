@@ -7,19 +7,18 @@ const fs = require('fs');
 models = require('../models')
 const User = models.user
 
+
 exports.createMessage = (req, res) => {
     db.Message.create({
-        UserId: req.user.id,
+        UserId: req.params.id,
         content: req.body.content,
-        attachment: req.body.attachement,
-        likes: 0,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       }).then(() => res.status(200).json({ message: 'message créé' }))
-    .catch(error => res.status(400).json({ message: 'error'}));
+    .catch(error => res.status(400).json({ message: 'echec de la création du message'}));
 };
 
 exports.getMessages = (req, res) => {
-    const limit = 4
-    const page = parseInt(req.query.page) || 1
+    const limit = 15
   
     const options = {
       include: [
@@ -28,15 +27,9 @@ exports.getMessages = (req, res) => {
         }
       ],
       limit,
-      offset: limit * (page - 1),
       order: [['createdAt', 'DESC']]
     }
   
-    if (req.query.userId) {
-      options.where = {
-        userId: parseInt(req.query.userId)
-      }
-    }
   
     db.Message.findAll(options)
       .then(messages => res.status(200).json({ messages }))
@@ -57,9 +50,9 @@ exports.getMessageById = (req, res) => {
 
 exports.editMessage = (req, res) => {
     db.Message.update({
+        UserId: req.params.id,
         content: req.body.content,
-        attachment: req.body.attachement,
-        likes: req.body.likes
+        imageUrl: req.body.imageUrl,
     },
     {
         where: { id: req.params.id }
@@ -68,8 +61,7 @@ exports.editMessage = (req, res) => {
 };
 
 exports.deleteMessage = (req, res) => {
-    db.Message.destroy({
-        where: {id: req.params.id}
-    }).then(deletedMessage => res.status(200).json({ deletedMessage }))
+  db.Message.destroy({ where: {id: req.params.id} })
+  .then(deletedMessage => res.status(200).json({ deletedMessage }))
     .catch(error => res.status(500).json({ error }));
 };

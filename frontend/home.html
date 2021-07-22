@@ -18,10 +18,14 @@
     <div id="container">
         <header>
             <img id="logo" src="images/icon-left-font-monochrome-white.svg">
-            <img id="avatar_user" src="images/avatar.svg">
-            <h2 id="names"></h2>
+            <div id="names_avatar">
+                <img id="avatar_user" src="images/avatar.svg">
+                <div id="names">
+
+                </div>         
+            </div>
             <div id="weather"></div>
-            <button>Déconnexion</button>
+            <button id="logout">Déconnexion</button>
         </header>
 
         <section id="create_message">
@@ -34,7 +38,7 @@
                 <input id="message" type="textarea" required maxlength="140" placeholder="140 caractères maximum" />
                 <div id="upload_file">
                     <button id="get_image" onclick="document.getElementById('image').click(); return false;"><i class="fas fa-image"></i></button>
-                    <input id="image" type="file" style="visibility: hidden;" />
+                    <input id="image" type="file" onchange="imageFile();" style="visibility: hidden;" />
                 </div>
                 <button id="post">poster</button>
             </div>
