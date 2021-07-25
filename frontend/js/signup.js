@@ -8,6 +8,7 @@ submitPost.addEventListener('click', () => {
         password: document.getElementById('password').value,
         firstName: document.getElementById('firstname').value,
         lastName: document.getElementById('name').value,
+        isAdmin: false
     };
 
 
@@ -25,6 +26,7 @@ submitPost.addEventListener('click', () => {
             sessionStorage.setItem('userId', response.userId);
             sessionStorage.setItem('firstName', response.firstName);
             sessionStorage.setItem('lastName', response.lastName);
+            sessionStorage.setItem('isAdmin', response.isAdmin);
             window.location.href="home.html?id=" + response.userId;
         }).catch(error => alert("les valeurs rentrées ne sont pas bonnes"));
 

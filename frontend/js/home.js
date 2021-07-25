@@ -6,6 +6,7 @@ const token = sessionStorage.getItem('token');
 
 const names = document.getElementById('names');
 
+
 const firstNameUser = document.createElement('h2');
 firstNameUser.textContent = sessionStorage.getItem('firstName');
 names.appendChild(firstNameUser);
@@ -64,32 +65,27 @@ toggleCreate.addEventListener('click', () => {
 
 
 
+     
+
+
+
 fetch('http://localhost:3000/api/message/getmessage', {
-    method: "GET",
+    method: 'GET',
     headers: {
-        "Content-Type": "application/json",
         'Authorization': 'Bearer' + ' ' + token,
     },
 }).then((response) => response.json())
 .then((response) => {
 
-    console.log(response)
-
     for(let i = 0; i < response.messages.length; i++) {
         
 
-        
         const firstName = response.messages[i].User.firstName;
         const lastName = response.messages[i].User.lastName;
 
         let idMessage = response.messages[i].id;
-        let idUserMessage = response.messages[i].User.id
-
-        console.log(idUserMessage);
+        let idUserMessage = response.messages[i].User.id;
         
-
-        //console.log(idUser);
-
         let messageDiv = document.createElement('div');
         messageDiv.setAttribute('class', 'messages_card');
         messagesSection.appendChild(messageDiv);
@@ -97,7 +93,6 @@ fetch('http://localhost:3000/api/message/getmessage', {
         let userDiv = document.createElement('div');
         userDiv.setAttribute('class', 'user_div');
         messageDiv.appendChild(userDiv);
-
 
         let userName = document.createElement('h2');
         userName.setAttribute('class', 'user_id');
@@ -109,10 +104,22 @@ fetch('http://localhost:3000/api/message/getmessage', {
         avatar.setAttribute('class', 'avatar');
         userDiv.appendChild(avatar);
 
+        const link = document.createElement('a');
+        link.setAttribute('class', 'link');
+        link.setAttribute('href', '#modify_message');
+        userDiv.appendChild(link);
+
         const edit = document.createElement('button');
         edit.setAttribute('class', 'edit_message');
         edit.textContent = 'Modifier';
-        userDiv.appendChild(edit);
+        link.appendChild(edit);
+        
+        edit.addEventListener('click', () => {
+            const displayEdit = document.getElementById('modify_message');
+            displayEdit.style.display="block";
+        });
+
+
 
         const report = document.createElement('button');
         report.setAttribute('class', 'report');
@@ -128,30 +135,80 @@ fetch('http://localhost:3000/api/message/getmessage', {
 
             window.location.href="home.html?id=" + idUser + "?idmessage=" + idMessage + "?idusermessage=" + idUserMessage;
 
-            if(idUser == idUserMessage){
-                fetch('http://localhost:3000/api/message/deletemessage/' + idMessage, {
-                    method: "DELETE",
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8' 
-                    },
-                }).then((response) => response.json())
-                .then((response) => {
-                    
-                    console.log(response)       
-                }).catch(error => alert("Erreur : " + error));
-    
-                window.location.href="home.html?id=" + idUser; 
-                location.reload();
-            } else {
+            function fail(){
                 alert('vous ne pouvez pas supprimer ce message');
                 window.location.href="home.html?id=" + idUser; 
                 location.reload();
-            }
+            };
+
+            function checkIsAdmin(){
+                let isAdmin = false;
+                if(idUser == 1){
+                    isAdmin = true
+                }else {
+                    isAdmin = false
+                }
+
+                return isAdmin
+            };
 
         
+            function checkIds(){
+                let matchingIds = false;
 
+                if (idUser == idUserMessage){
+                    matchingIds = true
+                } else {
+                    matchingIds = false
+                }
 
+                return matchingIds
+            };
+            console.log(checkIds());
+            console.log(checkIsAdmin());
+
+            checkIds();
+            if(checkIds() == true){
+                fetch('http://localhost:3000/api/message/deletemessage/' + idMessage, {
+                    method: "DELETE",
+                    headers: {
+                        'Authorization': 'Bearer' + ' ' + token,
+                    },
+                }).then((response) => response.json())
+                .then((response) => {
+                        console.log(response)       
+                }).catch(error => alert("Erreur : " + error));
+                    
+                window.location.href="home.html?id=" + idUser; 
+                location.reload();
+            }else{
+                checkIsAdmin();
+                if(checkIsAdmin() == true){
+                    fetch('http://localhost:3000/api/message/deletemessage/' + idMessage, {
+                        method: "DELETE",
+                        headers: {
+                            'Authorization': 'Bearer' + ' ' + token,
+                        },
+                    }).then((response) => response.json())
+                    .then((response) => {
+                            console.log(response)       
+                    }).catch(error => alert("Erreur : " + error));
+                        
+                    window.location.href="home.html?id=" + idUser; 
+                    location.reload();
+                }else {
+                    return fail()
+                }
+            };
+            
+        })
+
+        const cancel = document.getElementById('cancel')
+        cancel.addEventListener('click', () => {
+            const cancelEdit = document.getElementById('modify_message');
+            cancelEdit.style.display="none"
         });
+
 
         let content = document.createElement('h3');
         content.setAttribute('class', 'content');
@@ -164,6 +221,10 @@ fetch('http://localhost:3000/api/message/getmessage', {
         messageDiv.appendChild(image);
     }
 });
+
+
+
+
 
 function imageFile(){
     var filename = document.getElementById('image').value;
@@ -179,15 +240,15 @@ post.addEventListener('click', () => {
 
     let message = {
         content: document.getElementById('message').value,
-        imageUrl: document.getElementById('image').value,
+        //imageUrl: document.getElementById('image').value,
     };
 
 
     fetch("http://localhost:3000/api/message/postmessage/" + idUser, {
         method: "POST",
         headers: {
-            'Content-Type': 'multipart/form-data',
             'Authorization': 'Bearer' + ' ' + token,
+            'Content-type': 'application/json'
         },
         mode:'cors',
         body: JSON.stringify(message),
@@ -198,6 +259,36 @@ post.addEventListener('click', () => {
         }).catch(error => alert("Erreur : " + error));
 
 });
+
+const postModified = document.getElementById('post_modified');
+console.log(postModified)
+postModified.addEventListener('click', () => {
+
+    
+    let editMessageResponse = {
+        content: document.getElementById('message_modified').value,
+        //imageUrl: document.getElementById('image_modified').value, 
+    }
+
+    fetch('http://localhost:3000/api/message/editmessage/' + idMessage, {
+        method: "PUT",
+        headers: {
+            'Authorization': 'Bearer' + ' ' + token,
+        },
+        mode:'cors',
+        body: JSON.stringify(editMessageResponse),
+    }).then((response) => response.json())
+    .then((response) => {
+            console.log(response)       
+    }).catch(error => alert("Erreur : " + error));
+        
+    //window.location.href="home.html?id=" + idUser; 
+    //location.reload();
+
+})
+
+
+
 
 
 

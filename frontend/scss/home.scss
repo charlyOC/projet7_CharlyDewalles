@@ -38,9 +38,7 @@ body
         margin-right: auto;
         max-width: 1200px;
         display: flex;
-        flex-wrap: wrap;
         flex-direction: column;
-        justify-content: center;
         
 
         header
@@ -253,6 +251,113 @@ body
 
         }
 
+        #modify_message
+        {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: whitesmoke;
+            border-radius: 10px;
+            display: none;
+            h3 
+            {
+                margin-right: 20px;
+                font-size: 15px;
+                font-weight: 500;     
+            }
+            #message_modified 
+            {
+                border-radius: 10px;
+                border: none;
+                height: 100px;
+                width: 100%;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+
+            #upload_file_modified 
+            {
+                display: flex;
+                justify-content: center;
+
+                #get_image_modified  
+                {
+                    padding: 10px;
+                    height: 100px;
+                    margin-bottom: 30px;
+                    width: 30%;
+                    background-color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition-duration: 0.2s;
+
+                    &:hover 
+                    {
+                        box-shadow: #223e25c6 2px 4px 12px 1px;
+                        transition-duration: 0.2s;
+                    }
+
+                    i 
+                    {
+                        font-size: 30px;
+                    }
+
+                }
+
+                #image_modified 
+                {
+                    display: none;
+                    border: none;
+                    margin-bottom: 30px;
+                }
+      
+            }
+
+            #buttons 
+            {
+                display: flex;
+                justify-content: space-between;
+
+                #post_modified 
+                {
+                    width: 30%;
+                    padding: 10px;
+                    background-color: $pastel-pink;
+                    color: whitesmoke;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    cursor: pointer;
+                    transition-duration: 0.2s;
+
+                    &:hover 
+                    {
+                        box-shadow: #223e25c6 2px 4px 12px 1px;
+                        transition-duration: 0.2s;
+                    }
+                }  
+                
+                #cancel 
+                {
+                    width: 30%;
+                    padding: 10px;
+                    background-color: tomato;
+                    color: whitesmoke;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    cursor: pointer;
+                    transition-duration: 0.2s;
+
+                    &:hover 
+                    {
+                        box-shadow: #223e25c6 2px 4px 12px 1px;
+                        transition-duration: 0.2s;
+                    }    
+                }
+            }
+
+        }
 
 
         #messages
@@ -287,22 +392,26 @@ body
                         border-radius: 50%;
                     }
 
-                    .edit_message
+                    .link
                     {
-
-
-                        border: none;
-                        background-color: whitesmoke;
-                        color: $pastel-blue;
-                        cursor: pointer;  
-                        transition-duration: 0.2s;
-                        
-                        &:hover
+                        .edit_message
                         {
+                            border: none;
+                            background-color: whitesmoke;
+                            color: $pastel-blue;
+                            cursor: pointer;  
                             transition-duration: 0.2s;
-                            font-size: 15px;
+                                
+                            &:hover
+                            {
+                                transition-duration: 0.2s;
+                                font-size: 15px;
+                            }
                         }
+            
                     }
+
+
     
                     .report
                     {

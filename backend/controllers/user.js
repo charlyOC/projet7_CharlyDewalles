@@ -14,12 +14,14 @@ exports.signup = (req, res, next) => {
             email : req.body.email,
             password : hash,
             firstName : req.body.firstName,
-            lastName : req.body.lastName
+            lastName : req.body.lastName,
+            isAdmin: false
         }).then(userCreated => {
             res.status(201).json({ 
                 userId: userCreated.id,
                 firstName: userCreated.firstName,
                 lastName: userCreated.lastName,
+                isAdmin: userCreated.isAdmin,
                 token: jwt.sign(
                     {userId: userCreated.id},
                     'RANDOM_TOKEN_SECRET',
@@ -49,6 +51,7 @@ exports.login = (req, res) => {
                 userId: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                isAdmin: user.isAdmin,
                 token: jwt.sign(
                     {userId: user.id},
                     'RANDOM_TOKEN_SECRET',
@@ -83,11 +86,11 @@ exports.editUser = (req, res) => {
 
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        bio: req.body.bio,
-        avatar: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        include: [db.Message],
+        //avatar: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
 
         where: {id: req.params.id},
-    }).then(modifiedMessage => res.status(200).json({ modifiedMessage }))
+    }).then(modifiedUser => res.status(200).json({ modifiedUser }))
     .catch(error => res.status(500).json({ error }));
 };
 

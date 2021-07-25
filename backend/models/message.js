@@ -14,13 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       models.Message.belongsTo(models.User, {
         foreignKey: {
           onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
           allowNull: false
         }
       })
     }
   };
   Message.init({
-
     content: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
     UserId: DataTypes.INTEGER
@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Message',
   });
+
 
   return Message;
 };

@@ -24,10 +24,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      bio: {
-        allowNull: true,
-        type: Sequelize.STRING
-      },
       isAdmin: {
         type: Sequelize.BOOLEAN
       },
@@ -45,3 +41,5 @@ module.exports = {
     await queryInterface.dropTable('Users');
   }
 };
+
+sequelize.sync({ force: true })

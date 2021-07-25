@@ -15,19 +15,13 @@ module.exports = {
           model:'Users',
           key: 'id'
         },
-        onDelete: 'CASCADE'
       },
       content: {
-        allowNull: false,
         type: Sequelize.STRING
       },
-      attachment: {
-        allowNull: true,
-        type: Sequelize.STRING
-      },
-      likes: {
-        allowNull: false,
-        type: Sequelize.INTEGER
+      imageUrl: {
+        type: Sequelize.STRING,
+        defaultValue: "http://127.0.0.1:3000/images/avatars/default_user.jpg"
       },
       createdAt: {
         allowNull: false,
@@ -42,6 +36,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Messages');
   }
-
   
 };
+
+sequelize.sync({ force: true })

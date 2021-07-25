@@ -5,14 +5,15 @@ const sequelize = require('sequelize');
 const fs = require('fs');
 
 models = require('../models')
-const User = models.user
+const User = models.user;
+const Message = models.message;
 
 
 exports.createMessage = (req, res) => {
     db.Message.create({
         UserId: req.params.id,
         content: req.body.content,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       }).then(() => res.status(200).json({ message: 'message créé' }))
     .catch(error => res.status(400).json({ message: 'echec de la création du message'}));
 };
@@ -38,7 +39,6 @@ exports.getMessages = (req, res) => {
 
 exports.getMessageById = (req, res) => {
     db.Message.findOne({ where: { id: req.params.id },
-
         include: [
           {
             model: db.User
@@ -49,16 +49,26 @@ exports.getMessageById = (req, res) => {
 };
 
 exports.editMessage = (req, res) => {
-    db.Message.update({
-        UserId: req.params.id,
-        content: req.body.content,
-        imageUrl: req.body.imageUrl,
-    },
-    {
-        where: { id: req.params.id }
-    }).then(modifiedMessage => res.status(200).json({ modifiedMessage }))
-    .catch(error => res.status(500).json({ error }));
-};
+
+    db.Message.findOne({
+     where: {id: req.params.id} 
+    }).then(message => {
+      console.log(message)
+    }),
+
+
+
+  db.Message.update({
+    attributes: [
+      id = req.params.id,
+      content = req.body.content,
+      imageUrl = req.body.imageUrl
+
+    ]}, { where: { id: req.params.id }})
+  .then(() => res.status(200).json({ message: "Message modifié !" }))
+  .catch(error => res.status(400).json({ error }))
+}
+
 
 exports.deleteMessage = (req, res) => {
   db.Message.destroy({ where: {id: req.params.id} })

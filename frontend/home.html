@@ -38,9 +38,22 @@
                 <input id="message" type="textarea" required maxlength="140" placeholder="140 caractères maximum" />
                 <div id="upload_file">
                     <button id="get_image" onclick="document.getElementById('image').click(); return false;"><i class="fas fa-image"></i></button>
-                    <input id="image" type="file" onchange="imageFile();" style="visibility: hidden;" />
+                    <input id="image" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="imageFile(e.target.files[0]);" style="visibility: hidden;" />
                 </div>
                 <button id="post">poster</button>
+            </div>
+        </section>
+
+        <section id="modify_message" >
+            <h3>modifier le message</h3>
+            <input id="message_modified" type="textarea" required maxlength="140" placeholder="140 caractères maximum" />
+            <div id="upload_file_modified">
+                <button id="get_image_modified" onclick="document.getElementById('image').click(); return false;"><i class="fas fa-image"></i></button>
+                <input id="image_modified" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="imageFile(e.target.files[0]);" style="visibility: hidden;" />
+            </div>
+            <div id="buttons">
+                <button id="post_modified">modifier</button>
+                <button id="cancel">annuler</button>
             </div>
 
         </section>
