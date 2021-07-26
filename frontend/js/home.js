@@ -38,7 +38,6 @@ icon.addEventListener('click', () => {
 });
 
 
-
 let eraseAccount = document.getElementById('erase');
 eraseAccount.addEventListener('click', () => {
     console.log('click');
@@ -50,7 +49,8 @@ eraseAccount.addEventListener('click', () => {
     }).then((response) => response.json())
     .then((response) => {
         console.log(response)
-    })
+    }).catch(error);
+
     handleLogout();
 
 });
@@ -213,6 +213,7 @@ fetch('http://localhost:3000/api/message/getmessage', {
             console.log(checkIsAdmin());
 
             checkIds();
+
             if(checkIds() == true){
                 fetch('http://localhost:3000/api/message/deletemessage/' + idMessage, {
                     method: "DELETE",
@@ -221,8 +222,9 @@ fetch('http://localhost:3000/api/message/getmessage', {
                     },
                 }).then((response) => response.json())
                 .then((response) => {
-                        console.log(response)       
-                }).catch(error => alert("Erreur : " + error));
+                        console.log(response)   
+                        alert("message suprrimé")    
+                }).catch(error => alert("message suprrimé"));
                     
                 window.location.href="home.html?id=" + idUser; 
                 location.reload();
@@ -236,8 +238,9 @@ fetch('http://localhost:3000/api/message/getmessage', {
                         },
                     }).then((response) => response.json())
                     .then((response) => {
-                            console.log(response)       
-                    }).catch(error => alert("Erreur : " + error));
+                            console.log(response) 
+                            alert("message suprrimé")      
+                    }).catch(error => alert("message suprrimé"));
                         
                     window.location.href="home.html?id=" + idUser; 
                     location.reload();

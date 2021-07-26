@@ -54,19 +54,6 @@ exports.getMessageById = (req, res) => {
         .catch(error => res.status(404).json({ error }))
 };
 
-exports.getReportedMessage = (req, res) => {
-  db.Message.findAll({ where: { reported: true },
-      include: [
-        {
-          model: db.User
-        }
-      ]
-  }).then(post => res.status(200).json({ post }))
-      .catch(error => res.status(404).json({ error }))
-};
-
-
-
 
 exports.reportedMessage = (req, res) => {
   db.Message.update({
