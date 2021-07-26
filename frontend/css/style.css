@@ -8,77 +8,78 @@ body {
   background-color: #4e7e74;
 }
 
-/* line 16, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+/* line 17, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
 body header {
   height: 230px;
   display: flex;
   justify-content: center;
 }
 
-/* line 22, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+/* line 23, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
 body header img {
   width: 250px;
 }
 
-/* line 29, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+/* line 30, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
 body #container {
   display: flex;
   justify-content: center;
   margin-top: 10vh;
 }
 
-/* line 39, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup {
+/* line 36, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup {
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
   background-color: whitesmoke;
-  width: 30em;
+  width: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
 }
 
-/* line 48, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup h1 {
+/* line 46, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup h1 {
   text-align: center;
   font-size: 25px;
   font-weight: 800;
   padding: -5px;
 }
 
-/* line 56, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup h2 {
+/* line 54, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup h2 {
   text-decoration: none;
   font-size: 18px;
   font-weight: 600;
 }
 
-/* line 63, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup input {
+/* line 61, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup input {
   border: none;
   margin-bottom: 15px;
   padding: 6px;
   border-radius: 5px;
 }
 
-/* line 71, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup #name_firstname {
+/* line 69, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup #name_firstname {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-/* line 78, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup #firstname {
+/* line 76, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup #firstname {
   width: 43%;
 }
 
-/* line 83, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup #name {
+/* line 81, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup #name {
   width: 43%;
 }
 
-/* line 88, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup #submit {
+/* line 86, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup #submit {
   background-color: white;
   border: none;
   padding: 10px;
@@ -88,51 +89,52 @@ body #signup #submit {
   transition-duration: 0.2s;
 }
 
-/* line 98, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #signup #submit:hover {
+/* line 96, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #signup #submit:hover {
   box-shadow: #223e25c6 2px 4px 12px 1px;
   transition-duration: 0.2s;
 }
 
-/* line 106, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login {
+/* line 104, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login {
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
   background-color: whitesmoke;
-  width: 30em;
+  width: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
 }
 
-/* line 115, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login h1 {
+/* line 114, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login h1 {
   text-align: center;
   font-size: 25px;
   font-weight: 800;
   padding: -5px;
 }
 
-/* line 123, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login h2 {
+/* line 122, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login h2 {
   font-size: 18px;
   font-weight: 600;
 }
 
-/* line 129, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login input {
+/* line 128, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login input {
   border: none;
   margin-bottom: 15px;
   padding: 6px;
   border-radius: 5px;
 }
 
-/* line 138, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login #name {
+/* line 137, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login #name {
   width: 43%;
 }
 
-/* line 143, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login #submit {
+/* line 142, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login #submit {
   background-color: white;
   border: none;
   padding: 10px;
@@ -142,8 +144,8 @@ body #login #submit {
   transition-duration: 0.2s;
 }
 
-/* line 153, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
-body #login #submit:hover {
+/* line 152, ../../../Desktop/p7bis/projet7_CharlyDewalles/frontend/scss/style.scss */
+body #container #login #submit:hover {
   box-shadow: #223e25c6 2px 4px 12px 1px;
   transition-duration: 0.2s;
 }

@@ -338,7 +338,7 @@ body
 
         #create_message
         {
-
+            transition-duration: 0.3s;
             display: flex;
             flex-direction: column;
             align-content: flex-start;
@@ -367,6 +367,7 @@ body
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+                transition-duration: 0.3s;
 
                 h2 
                 {
@@ -394,14 +395,15 @@ body
 
             .menu_down
             {
+                transition-duration: 0.5s;
                 height: auto;
                 min-height: 600px;
-                transition-duration: 0.3s;
+
             }
 
             .menu_up
             {
-                transition-duration: 0.3s;
+                transition-duration: 0.5s;
                 height: 0px;
             }
 
@@ -409,9 +411,11 @@ body
             {
                 display: flex;
                 flex-direction: column;
+                transition-duration: 0.3s;
 
                 #message
                 {
+                    transition-duration: 0.3s;
                     display: flex;
                     border-radius: 10px;
                     border: none;

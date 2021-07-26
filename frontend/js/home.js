@@ -5,9 +5,10 @@ let params = new URLSearchParams (url);
 let idUser = params.get('id');
 const token = sessionStorage.getItem('token');
 
+
+
+
 const names = document.getElementById('names');
-
-
 
 const firstNameUser = document.createElement('h2');
 firstNameUser.textContent = sessionStorage.getItem('firstName');
@@ -55,10 +56,6 @@ eraseAccount.addEventListener('click', () => {
 });
 
 
-let cancelUserUpdate = document.getElementById('cancel_user_modified');
-cancelUserUpdate.addEventListener('click', () => {
-    document.getElementById('modify_user').style.display="none"
-})
 
 function handleLogout(){
     window.sessionStorage.clear();
