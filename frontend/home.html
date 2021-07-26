@@ -17,16 +17,38 @@
 <body>
     <div id="container">
         <header>
-            <img id="logo" src="images/icon-left-font-monochrome-white.svg">
+            <img id="logo" src="media/icon-left-font-monochrome-white.svg">
             <div id="names_avatar">
-                <img id="avatar_user" src="images/avatar.svg">
+                    <input id="file" type="file" name="file" onchange="uploadAvatar()" style="display: none;" >
+                    <img onclick="document.getElementById('file').click(); return false;" id="avatar_user" src="media/avatar.svg"> 
                 <div id="names">
 
                 </div>         
             </div>
-            <div id="weather"></div>
+            <div id="toggle_user">
+                <i id="icon" class="fas fa-bars"></i>
+                <div id="menu_user" class="menu_user_up">
+                    <div id="erase">
+                        <h3>supprimer son compte</h3>
+                    </div>
+                </div>
+            </div>
             <button id="logout">Déconnexion</button>
         </header>
+
+        <section id="modify_user" >
+            <h3>modifier son compte</h3>
+            <input id="user_firstname" placeholder="Prénom"/>
+            <input id="user_lastname" placeholder="nom"/>
+            <div id="upload_avatar_modified">
+                <button id="get_avatar_modified" onclick="document.getElementById('avatar_modified').click(); return false;"><i class="fas fa-image"></i></button>
+                <input id="avatar_modified" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="imageFile(e.target.files[0]);" style="visibility: hidden;" />
+            </div>
+            <div id="buttons_modify_user">
+                <button id="user_modified">modifier</button>
+                <button id="cancel_user_modified">annuler</button>
+            </div>
+        </section>
 
         <section id="create_message">
             <div id="toggle_post">
@@ -37,26 +59,22 @@
             <div id="inputs" class="menu_up">
                 <input id="message" type="textarea" required maxlength="140" placeholder="140 caractères maximum" />
                 <div id="upload_file">
-                    <button id="get_image" onclick="document.getElementById('image').click(); return false;"><i class="fas fa-image"></i></button>
-                    <input id="image" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="imageFile(e.target.files[0]);" style="visibility: hidden;" />
-                </div>
-                <button id="post">poster</button>
+                    <div  id="form"  >
+                        <div id="inputs_file">
+                            <label for="imageurl">choisissez une image</label>
+                            <input id="imageurl" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="imageFile(e.target.files[0]);" style="visibility: hidden;" />
+                        </div>
+                        <div class="preview">
+                            <button id="get_file" onclick="document.getElementById('imageurl').click(); return false;"><i class="fas fa-image"></i></button>
+                        </div>
+                        <div id="button_post">
+                          <button type="submit" id="post">Poster</button>
+                        </div>
+                    </div>
             </div>
         </section>
 
-        <section id="modify_message" >
-            <h3>modifier le message</h3>
-            <input id="message_modified" type="textarea" required maxlength="140" placeholder="140 caractères maximum" />
-            <div id="upload_file_modified">
-                <button id="get_image_modified" onclick="document.getElementById('image').click(); return false;"><i class="fas fa-image"></i></button>
-                <input id="image_modified" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="imageFile(e.target.files[0]);" style="visibility: hidden;" />
-            </div>
-            <div id="buttons">
-                <button id="post_modified">modifier</button>
-                <button id="cancel">annuler</button>
-            </div>
 
-        </section>
 
         <section id="messages">
 

@@ -1,10 +1,12 @@
 
+
 const url = window.location.search;
 let params = new URLSearchParams (url);
 let idUser = params.get('id');
 const token = sessionStorage.getItem('token');
 
 const names = document.getElementById('names');
+
 
 
 const firstNameUser = document.createElement('h2');
@@ -16,6 +18,48 @@ lastNameUser.textContent = sessionStorage.getItem('lastName');
 names.appendChild(lastNameUser);
 
 
+let icon = document.getElementById('icon');
+let menuUser = document.getElementById('menu_user')
+
+
+function menuUserUp() {
+    menuUser.classList.toggle('menu_user_up')
+};
+
+function menuUserDown() {
+    menuUser.classList.toggle('menu_user_down')
+}
+
+console.log(icon)
+
+icon.addEventListener('click', () => {
+    menuUserDown();
+});
+
+
+
+let eraseAccount = document.getElementById('erase');
+eraseAccount.addEventListener('click', () => {
+    console.log('click');
+    fetch('http://localhost:3000/api/auth/delete/' + idUser, {
+        method: "DELETE",
+        headers: {
+            'Authorization': 'Bearer' + ' ' + token,
+        },
+    }).then((response) => response.json())
+    .then((response) => {
+        console.log(response)
+    })
+    handleLogout();
+
+});
+
+
+let cancelUserUpdate = document.getElementById('cancel_user_modified');
+cancelUserUpdate.addEventListener('click', () => {
+    document.getElementById('modify_user').style.display="none"
+})
+
 function handleLogout(){
     window.sessionStorage.clear();
     window.location.href='login.html'
@@ -24,6 +68,8 @@ function handleLogout(){
 document.getElementById('logout').addEventListener('click', () => {
     handleLogout();
 });
+
+
 
 
 
@@ -65,10 +111,7 @@ toggleCreate.addEventListener('click', () => {
 
 
 
-     
-
-
-
+    
 fetch('http://localhost:3000/api/message/getmessage', {
     method: 'GET',
     headers: {
@@ -78,8 +121,9 @@ fetch('http://localhost:3000/api/message/getmessage', {
 .then((response) => {
 
     for(let i = 0; i < response.messages.length; i++) {
-        
 
+        
+        console.log(response.messages[i])
         const firstName = response.messages[i].User.firstName;
         const lastName = response.messages[i].User.lastName;
 
@@ -100,31 +144,35 @@ fetch('http://localhost:3000/api/message/getmessage', {
         userDiv.appendChild(userName);
 
         let avatar = document.createElement('img');
-        avatar.setAttribute('src', response.messages[i].User.avatar);
+        avatar.setAttribute('src', 'media/avatar.svg');
         avatar.setAttribute('class', 'avatar');
         userDiv.appendChild(avatar);
-
-        const link = document.createElement('a');
-        link.setAttribute('class', 'link');
-        link.setAttribute('href', '#modify_message');
-        userDiv.appendChild(link);
-
-        const edit = document.createElement('button');
-        edit.setAttribute('class', 'edit_message');
-        edit.textContent = 'Modifier';
-        link.appendChild(edit);
-        
-        edit.addEventListener('click', () => {
-            const displayEdit = document.getElementById('modify_message');
-            displayEdit.style.display="block";
-        });
-
-
 
         const report = document.createElement('button');
         report.setAttribute('class', 'report');
         report.textContent = 'Signaler';
         userDiv.appendChild(report);
+
+        report.addEventListener('click', () => {
+
+            window.location.href="home.html?id=" + idUser + "?idmessage=" + idMessage;
+            let reportedMessage = reported = true
+            fetch('http://localhost:3000/api/message/report/' + idMessage,  {
+                method: "PUT",
+                headers: { Authorization: "Bearer " + token },
+                body: reportedMessage,
+              })
+                .then(function (response) {
+                  return response.json();
+                })
+                .then(
+                    window.location.href="home.html?id=" + idUser,
+                  alert("message signalé")
+                )
+                .catch((error) => {
+                  console.log(error);
+            });
+        })
 
         const erase = document.createElement('button');
         erase.setAttribute('class', 'erase');
@@ -201,12 +249,6 @@ fetch('http://localhost:3000/api/message/getmessage', {
                 }
             };
             
-        })
-
-        const cancel = document.getElementById('cancel')
-        cancel.addEventListener('click', () => {
-            const cancelEdit = document.getElementById('modify_message');
-            cancelEdit.style.display="none"
         });
 
 
@@ -217,13 +259,81 @@ fetch('http://localhost:3000/api/message/getmessage', {
 
         let image = document.createElement('img');
         image.setAttribute('class', 'image_content');
-        image.setAttribute('src', (response.messages[i].attachment));
+        image.setAttribute('src', (response.messages[i].imageUrl));
         messageDiv.appendChild(image);
+
+        if(response.messages[i].reported == true){
+            messageDiv.style.border="1px red solid"
+        }
     }
 });
 
+const fileTypes = [
+    "image/apng",
+    "image/bmp",
+    "image/gif",
+    "image/jpeg",
+    "image/pjpeg",
+    "image/png",
+    "image/svg+xml",
+    "image/tiff",
+    "image/webp",
+    "image/x-icon"
+  ];
+  
+  function validFileType(file) {
+    return fileTypes.includes(file.type);
+}
 
+function returnFileSize(number) {
+    if(number < 1024) {
+      return number + 'bytes';
+    } else if(number >= 1024 && number < 1048576) {
+      return (number/1024).toFixed(1) + 'KB';
+    } else if(number >= 1048576) {
+      return (number/1048576).toFixed(1) + 'MB';
+    }
+  }
 
+function updateImageDisplay() {
+    while(preview.firstChild) {
+      preview.removeChild(preview.firstChild);
+    }
+  
+    const curFiles = input.files;
+
+    if(curFiles.length === 0) {
+      const para = document.createElement('p');
+      para.textContent = '';
+      preview.appendChild(para);
+    } else {
+      const list = document.createElement('ol');
+      preview.appendChild(list);
+  
+      for(const file of curFiles) {
+        const listItem = document.createElement('li');
+        const para = document.createElement('p');
+        if(validFileType(file)) {
+          para.textContent = ``;
+          const image = document.createElement('img');
+          image.src = URL.createObjectURL(file);
+  
+          listItem.appendChild(image);
+          listItem.appendChild(para);
+        } else {
+          para.textContent = `Le fichier ${file.name}: n'est pas un format valide.`;
+          listItem.appendChild(para);
+        }
+  
+        list.appendChild(listItem);
+      }
+    }
+  }
+
+const input = document.querySelector('#imageurl');
+const preview = document.querySelector('.preview');
+
+input.addEventListener('change', updateImageDisplay);
 
 
 function imageFile(){
@@ -238,54 +348,34 @@ const post = document.getElementById('post');
 
 post.addEventListener('click', () => {
 
-    let message = {
-        content: document.getElementById('message').value,
-        //imageUrl: document.getElementById('image').value,
-    };
+    let content = document.getElementById('message').value;
+    let imageUrl = document.getElementById('imageurl')
+    const formDataMessage = new FormData();
 
+    formDataMessage.append("content", content);
+    formDataMessage.append("image", imageUrl.files[0]);
+  
 
-    fetch("http://localhost:3000/api/message/postmessage/" + idUser, {
+    console.log(formDataMessage)
+    fetch('http://localhost:3000/api/message/postmessage/' + idUser,  {
         method: "POST",
-        headers: {
-            'Authorization': 'Bearer' + ' ' + token,
-            'Content-type': 'application/json'
-        },
-        mode:'cors',
-        body: JSON.stringify(message),
-    }).then((response) => response.json()) 
-        .then((response) => {
-            console.log(response)
-            location.reload();
-        }).catch(error => alert("Erreur : " + error));
+        headers: { Authorization: "Bearer " + token },
+        body: formDataMessage,
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(
+            window.location.href="home.html?id=" + idUser,
+          alert("message ajouté")
+        )
+        .catch((error) => {
+          console.log(error);
+    });
 
 });
 
-const postModified = document.getElementById('post_modified');
-console.log(postModified)
-postModified.addEventListener('click', () => {
 
-    
-    let editMessageResponse = {
-        content: document.getElementById('message_modified').value,
-        //imageUrl: document.getElementById('image_modified').value, 
-    }
-
-    fetch('http://localhost:3000/api/message/editmessage/' + idMessage, {
-        method: "PUT",
-        headers: {
-            'Authorization': 'Bearer' + ' ' + token,
-        },
-        mode:'cors',
-        body: JSON.stringify(editMessageResponse),
-    }).then((response) => response.json())
-    .then((response) => {
-            console.log(response)       
-    }).catch(error => alert("Erreur : " + error));
-        
-    //window.location.href="home.html?id=" + idUser; 
-    //location.reload();
-
-})
 
 
 

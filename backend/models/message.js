@@ -13,8 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Message.belongsTo(models.User, {
         foreignKey: {
-          onDelete: 'CASCADE',
-          onUpdate: 'CASCADE',
           allowNull: false
         }
       })
@@ -23,12 +21,25 @@ module.exports = (sequelize, DataTypes) => {
   Message.init({
     content: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
-    UserId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+    reported: DataTypes.INTEGER
     
   }, {
     sequelize,
     modelName: 'Message',
   });
+
+  Message.afterDestroy(async message => {
+    if (message.imageUrl) {
+      await deleteFile(message.imageUrl)
+    }
+  })
+
+  Message.afterUpdate(async message => {
+    if (message.dataValues.imageUrl !== message._previousDataValues.imageUrl) {
+      await deleteFile(message._previousDataValues.imageUrl)
+    }
+  })
 
 
   return Message;

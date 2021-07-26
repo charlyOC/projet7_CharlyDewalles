@@ -4,18 +4,24 @@ const db = require('../models');
 const sequelize = require('sequelize');
 const fs = require('fs');
 
-models = require('../models')
-const User = models.user;
-const Message = models.message;
+
+
+
+models = require('../models');
 
 
 exports.createMessage = (req, res) => {
-    db.Message.create({
-        UserId: req.params.id,
-        content: req.body.content,
-        //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-      }).then(() => res.status(200).json({ message: 'message créé' }))
-    .catch(error => res.status(400).json({ message: 'echec de la création du message'}));
+
+  db.Message.create({
+    content: req.body.content,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    UserId: req.params.id,
+    reported: false,
+  })
+  .then(response => res.status(200).json({ 
+      message: response,
+    })).catch(error => res.status(400).json({ message: error}));
+
 };
 
 exports.getMessages = (req, res) => {
@@ -48,25 +54,17 @@ exports.getMessageById = (req, res) => {
         .catch(error => res.status(404).json({ error }))
 };
 
-exports.editMessage = (req, res) => {
-
-    db.Message.findOne({
-     where: {id: req.params.id} 
-    }).then(message => {
-      console.log(message)
-    }),
 
 
-
+exports.reportedMessage = (req, res) => {
   db.Message.update({
-    attributes: [
-      id = req.params.id,
-      content = req.body.content,
-      imageUrl = req.body.imageUrl
-
-    ]}, { where: { id: req.params.id }})
-  .then(() => res.status(200).json({ message: "Message modifié !" }))
-  .catch(error => res.status(400).json({ error }))
+    ...req.body,
+    reported: true
+  },
+  {
+    where: {id: req.params.id}
+  })  .then(reportedMessage => res.status(200).json({ reportedMessage }))
+  .catch(error => res.status(500).json({ error }));
 }
 
 

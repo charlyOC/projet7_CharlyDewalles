@@ -22,12 +22,18 @@ submitPost.addEventListener('click', () => {
         }).then((response) => response.json()) 
         .then((response) => {
             console.log(response)
-            sessionStorage.setItem('token', response.token);
-            sessionStorage.setItem('userId', response.userId);
-            sessionStorage.setItem('firstName', response.firstName);
-            sessionStorage.setItem('lastName', response.lastName);
-            sessionStorage.setItem('isAdmin', response.isAdmin);
-            window.location.href="home.html?id=" + response.userId;
+            if(response.error){
+                alert(response.error)
+            }else
+            {
+                sessionStorage.setItem('token', response.token);
+                sessionStorage.setItem('userId', response.userId);
+                sessionStorage.setItem('firstName', response.firstName);
+                sessionStorage.setItem('lastName', response.lastName);
+                sessionStorage.setItem('isAdmin', response.isAdmin);
+                window.location.href="home.html?id=" + response.userId;
+            }
+
         }).catch(error => alert("les valeurs rentrées ne sont pas bonnes"));
 
 });

@@ -15,7 +15,8 @@ exports.signup = (req, res, next) => {
             password : hash,
             firstName : req.body.firstName,
             lastName : req.body.lastName,
-            isAdmin: false
+            isAdmin: false,
+
         }).then(userCreated => {
             res.status(201).json({ 
                 userId: userCreated.id,
@@ -83,11 +84,8 @@ exports.getUser = (req, res) => {
 
 exports.editUser = (req, res) => {
     db.User.update({ 
-
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        include: [db.Message],
-        //avatar: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        ...req.body,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
 
         where: {id: req.params.id},
     }).then(modifiedUser => res.status(200).json({ modifiedUser }))

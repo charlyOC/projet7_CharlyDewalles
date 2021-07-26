@@ -39,4 +39,4 @@ module.exports = {
   
 };
 
-sequelize.sync({ force: true })
+

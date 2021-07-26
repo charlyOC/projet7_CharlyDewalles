@@ -1,4 +1,5 @@
 
+
 const submit = document.getElementById('submit');
 
 
@@ -19,14 +20,20 @@ submit.addEventListener('click', () => {
         body: JSON.stringify(user),
         }).then((response) => response.json()) 
         .then((response) => {
-            console.log(response.isAdmin)
-            console.log(response.userId)
-            sessionStorage.setItem('token', response.token);
-            sessionStorage.setItem('userId', response.userId);
-            sessionStorage.setItem('firstName', response.firstName);
-            sessionStorage.setItem('lastName', response.lastName);
-            sessionStorage.setItem('isAdmin', response.isAdmin);
-            window.location.href="home.html?id=" + response.userId;
+            if(response.error){
+                console.log(response)
+                alert(response.error)
+            }else{
+                console.log(response)
+                sessionStorage.setItem('token', response.token);
+                sessionStorage.setItem('userId', response.userId);
+                sessionStorage.setItem('firstName', response.firstName);
+                sessionStorage.setItem('lastName', response.lastName);
+                sessionStorage.setItem('isAdmin', response.isAdmin);
+                sessionStorage.setItem('imageUrl', response.imageUrl);
+                window.location.href="home.html?id=" + response.userId;
+            }
+
     }).catch(error => alert("Erreur : " + error));
 
 });
