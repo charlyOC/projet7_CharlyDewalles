@@ -1,4 +1,4 @@
-
+//récupération des infos de l'url
 
 const url = window.location.search;
 let params = new URLSearchParams (url);
@@ -6,7 +6,7 @@ let idUser = params.get('id');
 const token = sessionStorage.getItem('token');
 
 
-
+//affichage du Uername
 
 const names = document.getElementById('names');
 
@@ -18,6 +18,8 @@ const lastNameUser = document.createElement('h3');
 lastNameUser.textContent = sessionStorage.getItem('lastName');
 names.appendChild(lastNameUser);
 
+
+//menu pour supprimer le user connecté
 
 let icon = document.getElementById('icon');
 let menuUser = document.getElementById('menu_user')
@@ -69,6 +71,7 @@ document.getElementById('logout').addEventListener('click', () => {
 
 
 
+//section pour créer le message
 
 const messagesSection = document.getElementById('messages');
 
@@ -107,7 +110,7 @@ toggleCreate.addEventListener('click', () => {
 
 
 
-
+//fetch pour afficher tous les messages avec une boucle
     
 fetch('http://localhost:3000/api/message/getmessage', {
     method: 'GET',
@@ -150,6 +153,7 @@ fetch('http://localhost:3000/api/message/getmessage', {
         report.textContent = 'Signaler';
         userDiv.appendChild(report);
 
+        // fetch pour report le post
         report.addEventListener('click', () => {
 
             window.location.href="home.html?id=" + idUser + "?idmessage=" + idMessage;
@@ -171,6 +175,7 @@ fetch('http://localhost:3000/api/message/getmessage', {
             });
         })
 
+        // boutton pour supprimer le compte
         const erase = document.createElement('button');
         erase.setAttribute('class', 'erase');
         erase.textContent = 'Supprimer';
@@ -188,7 +193,7 @@ fetch('http://localhost:3000/api/message/getmessage', {
 
             function checkIsAdmin(){
                 let isAdmin = false;
-                if(idUser == 1){
+                if(idUser == 3){
                     isAdmin = true
                 }else {
                     isAdmin = false
@@ -213,6 +218,8 @@ fetch('http://localhost:3000/api/message/getmessage', {
             console.log(checkIsAdmin());
 
             checkIds();
+
+            //fetch pour delete le message
 
             if(checkIds() == true){
                 fetch('http://localhost:3000/api/message/deletemessage/' + idMessage, {
@@ -267,6 +274,9 @@ fetch('http://localhost:3000/api/message/getmessage', {
         }
     }
 });
+
+
+//gestion de l'image envoyé au back
 
 const fileTypes = [
     "image/apng",
@@ -330,6 +340,8 @@ function updateImageDisplay() {
     }
   }
 
+
+// preview de l'image 
 const input = document.querySelector('#imageurl');
 const preview = document.querySelector('.preview');
 
@@ -343,7 +355,7 @@ function imageFile(){
     alert(filename);
 }
 
-
+// fetch pour poster un message 
 const post = document.getElementById('post');
 
 post.addEventListener('click', () => {

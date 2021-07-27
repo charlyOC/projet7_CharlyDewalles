@@ -1,13 +1,13 @@
-1. ouvrez le dossier backend via le terminal 
+1. ouvrir le dossier backend via le terminal 
 
-2. éxécutez `npm install`
+2. éxécuter `npm install`
 
-3. éxécutez `npm server` ou `nodemon server` s'il est installé sur votre machine 
+3. éxécuter `npm server` ou `nodemon server` s'il est installé sur votre machine 
 
-4. lancez la page 'signup.html'
+4. éxécuter les commandes mysql via `groupomania_database.sql` dans votre serveur SQL
 
-6. connectez vous à votre serveur mysql 
+5. installer  l'extension `live-server` pour éviter les erreurs CORS
 
-7. faire attention que le username et password concorde avec avec le fichier `config.json` dans le dorssier config
+6. lancez login.html via live server 
 
-7. éxécutez `sequelize db:create && sequelize db:migrate`
+7. connectez vous avec le compte administrateur: `elon.musk@gmail.com`, password: `ElonMusk2`  

@@ -1,4 +1,6 @@
 
+//SIGNUP DE L'UTILISATEUR
+
 const submitPost = document.getElementById('submit');
 
 submitPost.addEventListener('click', () => {
